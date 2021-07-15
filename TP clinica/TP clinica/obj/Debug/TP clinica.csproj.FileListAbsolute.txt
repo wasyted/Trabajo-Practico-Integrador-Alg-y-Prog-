@@ -1,0 +1,5 @@
+C:\Users\Matías\Documents\SharpDevelop Projects\TP clinica\TP clinica\obj\Debug\TP clinica.csprojResolveAssemblyReference.cache
+C:\Users\Matías\Documents\SharpDevelop Projects\TP clinica\TP clinica\bin\Debug\TP clinica.exe
+C:\Users\Matías\Documents\SharpDevelop Projects\TP clinica\TP clinica\bin\Debug\TP clinica.pdb
+C:\Users\Matías\Documents\SharpDevelop Projects\TP clinica\TP clinica\obj\Debug\TP clinica.exe
+C:\Users\Matías\Documents\SharpDevelop Projects\TP clinica\TP clinica\obj\Debug\TP clinica.pdb
