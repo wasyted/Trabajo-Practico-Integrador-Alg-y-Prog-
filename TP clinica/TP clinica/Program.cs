@@ -225,24 +225,6 @@ namespace TP_clinica
 						}
 						
 						
-//						switch (serv) {
-//							case "e1":
-//								kinesiologia.agregarPaciente(pac,especialista,serv);
-//								Console.WriteLine("Paciente internado con exito para kinesiologia");
-//								break;
-//							case "e2":
-//								odontologia.agregarPaciente(pac,especialista,serv);
-//								Console.WriteLine("Paciente internado con exito para odontologia");
-//								break;
-//							case "e3":
-//								radiologia.agregarPaciente(pac,especialista,serv);
-//								Console.WriteLine("Paciente internado con exito para radiologia");
-//								break;
-//							case "e4":
-//								cardiologia.agregarPaciente(pac,especialista,serv);
-//								Console.WriteLine("Paciente internado con exito para cardiologia");
-//								break;
-//						}
 						
 						opcion = Menu();
 						
