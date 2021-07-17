@@ -61,21 +61,18 @@ namespace TP_clinica
 				
 			}
 			
-		public void verServicio(int i){
-			
-				Console.WriteLine(listaServicios[i].ToString());
+		public Servicio verServicio(int i){
+			Servicio ser = (Servicio)ListaServicios[i];
+			return ser;
 				
 			}
 			
-		public void todosServicio(){
+		public ArrayList todosServ(){
 			
 			
-				Console.WriteLine("Los siguientes servicios se encuentran disponibles: ");
-					foreach(Servicio ser in ListaServicios){
-				
-						Console.WriteLine(ser.Especialidad);
+			return (ArrayList)listaServicios;
 			}
-			}
+			
 			
 		public void existeServ(string especialidad){
 			
@@ -84,8 +81,14 @@ namespace TP_clinica
 					if(especialidad == ser.Especialidad){
 					
 						Console.WriteLine("El servicio de "+especialidad+" está disponible en la clinica.");
+						}
+					else{
+						
+						Console.WriteLine("El servicio de "+especialidad+" no está disponible en la clinica.");	
+							
+						}
 					
-					}
+					
 						
 				}
 			}

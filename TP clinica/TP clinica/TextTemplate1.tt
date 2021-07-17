@@ -1,0 +1,9 @@
+﻿Clase clínica:
+
+
+
+clase servicio:
+
+-método agregarPaciente() solo debe agregar el paciente al listado, todo lo demás debe implementarse en la clase program (pasar esa lógica al main)
+-Corregir y ajustar la clase program después de realizar los cambios en las otras clases
+-Recordá que también debes hacer el UML

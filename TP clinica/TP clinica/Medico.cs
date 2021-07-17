@@ -10,6 +10,7 @@ namespace TP_clinica
 		private string nombre;
 		private string especialidad;
 		private string horario;
+		private double matricula;
 		
 		public Medico(int dni, int legajo,string nombre,string especialidad,string horario)
 		{
@@ -39,6 +40,10 @@ namespace TP_clinica
 		public string Horario {
 			get{return horario;}
 			set{horario = value;}
+		}
+		public double Matricula {
+			get{return matricula;}
+			set{matricula = value;}
 		}
 	}
 }

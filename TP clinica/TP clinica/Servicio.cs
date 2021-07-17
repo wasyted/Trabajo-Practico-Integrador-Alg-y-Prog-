@@ -51,15 +51,10 @@ namespace TP_clinica
 			}
 		}
 		
-		public void eliminarMedico(int dni, int legajo){
-			ArrayList plantelAux=(ArrayList)plantel.Clone();
-			
-			foreach (Medico med in plantelAux) {
-				if(dni == med.DniMed && legajo == med.Legajo){
-					plantel.Remove(med);
-				}	
+		public void eliminarMedico(Medico med){
+				plantel.Remove(med);
 			}
-		}
+		
 		
 		public void totalMedico(){
 			
@@ -72,111 +67,68 @@ namespace TP_clinica
 				}
 			}
 				
-		public void verMedico(int i){
-				
-			string medico = plantel[i].ToString();
-				Console.WriteLine("El medico numero "+i+" es: "+medico);
+		public Medico verMedico(int i){
+			
+			return (Medico)plantel[i];
+			
 			}
 		
-		public void todosMedico(){
+		public ArrayList todosMedico(){
 			
-			
-			Console.WriteLine("Medico(s) disponible(s) en el servicio "+especialidad+" :" );
-			foreach (Medico med in Plantel) {
-
-				Console.WriteLine(med.NombreMed);
-				}
-			}
-		public void serviciosTurnoNocturno(){
-			
-						foreach (Medico med in plantel) {
-						
-							if(med.Horario=="h1"){
-					
-								Console.WriteLine(Especialidad);
-						
-						}
-							
-				}
+			return (ArrayList)plantel;
 		}
+			
 		
 			//Métodos del objeto Paciente:
 			
-			public void agregarPaciente(Paciente pac, string medico, string servicio){
+			public void agregarPaciente(Paciente pac){
 				
-				foreach(Medico med in plantel){
-					
-					if(medico == med.NombreMed && servicio == especialidad){
-						
-						//Bloque de excepción, posible falta de camas disponibles:
-						
-						try {
-							
-							cupo = cupo - 1;
-							if(cupo<0){
-							
-								throw new ExcepcionFaltaDeCupo();
-							}
-							else{
-						listaPacientes.Add(pac);
-						}
-						} catch (ExcepcionFaltaDeCupo ){
-							
-								throw;	
-						}
-					}	
-				}
+				listaPacientes.Add(pac);
 			}
 			
 			
-			public void eliminarPaciente(int dni,string especialista){
-			ArrayList listaPacientesAux=(ArrayList)listaPacientes.Clone();
-			
-			foreach (Paciente pac in listaPacientesAux) {
-				if(dni == pac.DniPac){
-					foreach (Medico med in plantel) {
-						if(med.NombreMed == especialista){
-						
-							plantel.Remove(pac);
+			public void eliminarPaciente(Paciente pac){
+
+				listaPacientes.Remove(pac);
 							cupo = cupo +1;
 						
 						}
-					}
 					
-				}	
-			}
-		}
 
-			public void verPaciente(int i){
+			public Paciente verPaciente(int i){
 				
-			string pac = listaPacientes[i].ToString();
-			Console.WriteLine("El medico numero "+i+" es: "+pac);
+				return (Paciente)listaPacientes[i];
 			}
 
-			public void todosPaciente(string especialidad){
-				if(especialidad == Especialidad){
-				foreach (Paciente pac in listaPacientes) {
+			public ArrayList todosPaciente(){
 				
-						Console.WriteLine(pac.NombrePac);
+				return (ArrayList)listaPacientes;
+				
 					}
-				}
-			}
+				
 			
-			public void esPaciente(int dni){
+			
+			public bool esPaciente(int dni){
 				
 				foreach (Paciente pac in listaPacientes) {
 					
 					if (dni == pac.DniPac){
-						
-						Console.WriteLine("El paciente está internado en la clinica.");
+
+						return true;
 					}
 					
 					else{
 						
-						Console.WriteLine("El paciente no está internado en la clinica.");
+						return false;
 					}
 					
 				}
+				
+			}
+			
+			public int cantPac(){
+				
+				return listaPacientes.Count;
 				
 			}
 	

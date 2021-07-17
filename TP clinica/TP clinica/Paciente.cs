@@ -8,14 +8,14 @@ namespace TP_clinica
 			private int dni;
 			private string nombre;
 			private string apellido;
-			private string servicio;
+
 		
-		public Paciente(int dni, string nombre,string apellido,string servicio)
+		public Paciente(int dni, string nombre,string apellido)
 		{
 			this.dni=dni;
 			this.nombre=nombre;
 			this.apellido=apellido;
-			this.servicio=servicio;
+
 		}
 		
 		//Propiedades del objeto Paciente:
@@ -31,10 +31,6 @@ namespace TP_clinica
 		public string ApellidoPac {
 			get{return apellido;}
 			set{apellido = value;}
-		}
-		public string Servicio {
-			get{return servicio;}
-			set{servicio = value;}
 		}
 	}
 }

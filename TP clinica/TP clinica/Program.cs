@@ -39,6 +39,8 @@ namespace TP_clinica
 			string apellido;
 			string serv;
 			string especialista;
+			double matricula;
+			int opcion;
 			
 			//Instancio la clase clinica
 			Clinica salud = new Clinica("salud");
@@ -61,19 +63,9 @@ namespace TP_clinica
 			salud.agregarServicio(radiologia);
 			salud.agregarServicio(cardiologia);
 			
-			//Menu de opciones con bloque while
-			Console.WriteLine(" 1 - agregar medico");
-			Console.WriteLine(" 2 - eliminar medico");
-			Console.WriteLine(" 3 - internar un paciente con un medico a cargo");
-			Console.WriteLine(" 4 - lista de servicios con medicos de turno nocturno");
-			Console.WriteLine(" 5 - dar el alta a un paciente con un medico determinado");
-			Console.WriteLine(" 6 - listado de servicios");
-			Console.WriteLine(" 7 - listado de medicos");
-			Console.WriteLine(" 8 - listado de pacientes de un servicio");
-			Console.WriteLine();
+			//LLamo a la funcion estatica menú
+			opcion = Menu();
 			
-			Console.Write("Seleccione una opcion del menu: ");
-			int opcion = int.Parse(Console.ReadLine());
 			Console.Clear();
 			while (opcion != 9){
 				
@@ -83,25 +75,31 @@ namespace TP_clinica
 						
 						Console.WriteLine("Dni del medico");
 						dni = int.Parse(Console.ReadLine());
+						
 						Console.WriteLine("Legajo del medico");
 						legajo = int.Parse(Console.ReadLine());
+						
 						Console.WriteLine("Nombre del medico");
 						nombre = Console.ReadLine().ToLower();
+						
+						Console.WriteLine("Matricula del medico");
+						matricula = double.Parse(Console.ReadLine());
+						
 						Console.WriteLine("Especialidad: ");
 						Console.WriteLine("e1 - Kinesiologia ");
 						Console.WriteLine("e2 - Odontologia ");
 						Console.WriteLine("e3 - Radiologia ");
 						Console.WriteLine("e4 - Cardiologia ");
+						
 						especialidad = Console.ReadLine().ToLower();
+						
 						Console.WriteLine("Horario");
 						Console.WriteLine("h1 - 00:00 a 08:00");
 						Console.WriteLine("h2 - 08:00 a 16:00");
 						Console.WriteLine("h3 - 16:00 a 00:00");
 						
 						horario = Console.ReadLine().ToLower();
-						
-								
-						
+		
 						switch (especialidad) {
 							case "e1" :
 									Medico med = new Medico(dni,legajo,nombre,especialidad,horario);
@@ -130,24 +128,7 @@ namespace TP_clinica
 								break;
 						}
 						
-						Console.WriteLine("Presione una tecla para volver al menú...");
-						Console.ReadKey();
-						Console.Clear();
-						
-						//Vuelvo a mostrar el menú
-						Console.WriteLine("Seleccione una opcion del menu: ");
-						Console.WriteLine(" 1 - agregar medico");
-						Console.WriteLine(" 2 - eliminar medico");
-						Console.WriteLine(" 3 - internar un paciente con un medico a cargo");
-						Console.WriteLine(" 4 - lista de servicios con medicos de turno nocturno");
-						Console.WriteLine(" 5 - dar el alta a un paciente con un medico determinado");
-						Console.WriteLine(" 6 - listado de servicios");
-						Console.WriteLine(" 7 - listado de medicos");
-						Console.WriteLine(" 8 - listado de pacientes de un servicio");
-						Console.WriteLine(" 9 - salir del programa);");
-						Console.WriteLine();
-						opcion = int.Parse(Console.ReadLine());
-						Console.Clear();
+						opcion = Menu();
 						
 						break;
 					case 2:	//Eliminar un medico
@@ -158,32 +139,34 @@ namespace TP_clinica
 						Console.Write("Legajo: ");
 						legajo = int.Parse(Console.ReadLine());
 						
-						kinesiologia.eliminarMedico(dni,legajo);
-						odontologia.eliminarMedico(dni,legajo);
-						radiologia.eliminarMedico(dni,legajo);
-						cardiologia.eliminarMedico(dni,legajo);
+						foreach (Medico med in kinesiologia.Plantel) {
+							if(dni == med.DniMed && legajo == med.Legajo){
+								kinesiologia.eliminarMedico(med);
+							}
+						}							
+						foreach (Medico med in odontologia.Plantel) {
+							if(dni == med.DniMed && legajo == med.Legajo){
+								odontologia.eliminarMedico(med);
+							}	
+						}
+						foreach (Medico med in radiologia.Plantel) {
+							if(dni == med.DniMed && legajo == med.Legajo){
+								radiologia.eliminarMedico(med);
+							}
+						}							
+						foreach (Medico med in cardiologia.Plantel) {
+							if(dni == med.DniMed && legajo == med.Legajo){
+								cardiologia.eliminarMedico(med);
+								
+							}
+						}			
+				
+						
+						
 						
 						Console.WriteLine("Medico eliminado satisfactoriamente");
 						
-						Console.WriteLine();
-						Console.WriteLine("Presione una tecla para volver al menú...");
-						Console.ReadKey();
-						Console.Clear();
-						
-						//Vuelvo a mostrar el menú
-						Console.WriteLine("Seleccione una opcion del menu: ");
-						Console.WriteLine(" 1 - agregar medico");
-						Console.WriteLine(" 2 - eliminar medico");
-						Console.WriteLine(" 3 - internar un paciente con un medico a cargo");
-						Console.WriteLine(" 4 - lista de servicios con medicos de turno nocturno");
-						Console.WriteLine(" 5 - dar el alta a un paciente con un medico determinado");
-						Console.WriteLine(" 6 - listado de servicios");
-						Console.WriteLine(" 7 - listado de medicos");
-						Console.WriteLine(" 8 - listado de pacientes de un servicio");
-						Console.WriteLine(" 9 - salir del programa);");
-						Console.WriteLine();
-						opcion = int.Parse(Console.ReadLine());
-						Console.Clear();
+						opcion = Menu();
 						
 						break;
 					case 3: 	//Internar un paciente
@@ -205,49 +188,63 @@ namespace TP_clinica
 						Console.WriteLine("e4 - Cardiologia ");
 						serv = Console.ReadLine().ToLower();
 						
-						Paciente pac = new Paciente(dni, nombre, apellido, serv);
+						Paciente pac = new Paciente(dni, nombre, apellido);
 						
 						Console.WriteLine("Nombre del medico a cargo: ");
 						especialista = Console.ReadLine().ToLower();
 						
-						switch (serv) {
-							case "e1":
-								kinesiologia.agregarPaciente(pac,especialista,serv);
-								Console.WriteLine("Paciente internado con exito para kinesiologia");
-								break;
-							case "e2":
-								odontologia.agregarPaciente(pac,especialista,serv);
-								Console.WriteLine("Paciente internado con exito para odontologia");
-								break;
-							case "e3":
-								radiologia.agregarPaciente(pac,especialista,serv);
-								Console.WriteLine("Paciente internado con exito para radiologia");
-								break;
-							case "e4":
-								cardiologia.agregarPaciente(pac,especialista,serv);
-								Console.WriteLine("Paciente internado con exito para cardiologia");
-								break;
+						foreach (Servicio ser in salud.ListaServicios) {
+							
+							foreach(Medico med in ser.Plantel){
+					
+								if(especialista == med.NombreMed && serv == med.Especialidad){
+						
+						//Bloque de excepción, posible falta de camas disponibles:
+						
+						try {
+							
+							int cupo = ser.Cupo - 1;
+							if(cupo<0){
+							
+								throw new ExcepcionFaltaDeCupo();
+							}
+							else{
+								
+								ser.agregarPaciente(pac);
+								Console.WriteLine("Paciente internado con exito en "+ser.Especialidad);
+						
+						}
+						} catch (ExcepcionFaltaDeCupo){
+							
+							Console.WriteLine("Error, no hay camas disponibles");
+							
+									throw;	
+									}
+								}	
+							}
 						}
 						
-						Console.WriteLine();						
-						Console.WriteLine("Presione una tecla para volver al menú...");
-						Console.ReadKey();
-						Console.Clear();
 						
-						//Vuelvo a mostrar el menú
-						Console.WriteLine("Seleccione una opcion del menu: ");
-						Console.WriteLine(" 1 - agregar medico");
-						Console.WriteLine(" 2 - eliminar medico");
-						Console.WriteLine(" 3 - internar un paciente con un medico a cargo");
-						Console.WriteLine(" 4 - lista de servicios con medicos de turno nocturno");
-						Console.WriteLine(" 5 - dar el alta a un paciente con un medico determinado");
-						Console.WriteLine(" 6 - listado de servicios");
-						Console.WriteLine(" 7 - listado de medicos");
-						Console.WriteLine(" 8 - listado de pacientes de un servicio");
-						Console.WriteLine(" 9 - salir del programa);");
-						Console.WriteLine();
-						opcion = int.Parse(Console.ReadLine());
-						Console.Clear();
+//						switch (serv) {
+//							case "e1":
+//								kinesiologia.agregarPaciente(pac,especialista,serv);
+//								Console.WriteLine("Paciente internado con exito para kinesiologia");
+//								break;
+//							case "e2":
+//								odontologia.agregarPaciente(pac,especialista,serv);
+//								Console.WriteLine("Paciente internado con exito para odontologia");
+//								break;
+//							case "e3":
+//								radiologia.agregarPaciente(pac,especialista,serv);
+//								Console.WriteLine("Paciente internado con exito para radiologia");
+//								break;
+//							case "e4":
+//								cardiologia.agregarPaciente(pac,especialista,serv);
+//								Console.WriteLine("Paciente internado con exito para cardiologia");
+//								break;
+//						}
+						
+						opcion = Menu();
 						
 						break;
 					case 4:	//Listado de servicios con medicos en turno nocturno
@@ -260,30 +257,20 @@ namespace TP_clinica
 								Console.WriteLine("e4 - Cardiologia ");
 								Console.WriteLine();
 								Console.WriteLine("Los siguientes servicios tienen medicos en turno nocturno: ");
-								kinesiologia.serviciosTurnoNocturno();
-								odontologia.serviciosTurnoNocturno();
-								radiologia.serviciosTurnoNocturno();
-								cardiologia.serviciosTurnoNocturno();
 								
-								Console.WriteLine();
-								Console.WriteLine("Presione una tecla para volver al menú...");
-								Console.ReadKey();
-								Console.Clear();
-						
-								//Vuelvo a mostrar el menú
-								Console.WriteLine("Seleccione una opcion del menu: ");
-								Console.WriteLine(" 1 - agregar medico");
-								Console.WriteLine(" 2 - eliminar medico");
-								Console.WriteLine(" 3 - internar un paciente con un medico a cargo");
-								Console.WriteLine(" 4 - lista de servicios con medicos de turno nocturno");
-								Console.WriteLine(" 5 - dar el alta a un paciente con un medico determinado");
-								Console.WriteLine(" 6 - listado de servicios");
-								Console.WriteLine(" 7 - listado de medicos");
-								Console.WriteLine(" 8 - listado de pacientes de un servicio");
-								Console.WriteLine(" 9 - salir del programa);");
-								Console.WriteLine();
-								opcion = int.Parse(Console.ReadLine());
-								Console.Clear();
+									ArrayList listaServicios = salud.todosServ();
+								
+									foreach (Servicio ser in listaServicios) {
+									
+										foreach(Medico med in ser.Plantel){
+									
+										if(med.Horario == "h1"){
+										
+											serviciosTurnoNocturno(ser.Especialidad);
+											}
+								}
+							}
+								opcion = Menu();
 						
 						break;
 					case 5:	//Dar el alta a un paciente con medico determinado
@@ -294,55 +281,44 @@ namespace TP_clinica
 						Console.WriteLine("Nombre del medico a cargo: ");
 						especialista = Console.ReadLine().ToLower();
 						
-						kinesiologia.eliminarPaciente(dni, especialista);
-						odontologia.eliminarPaciente(dni, especialista);
-						radiologia.eliminarPaciente(dni, especialista);
-						cardiologia.eliminarPaciente(dni, especialista);
+						foreach(Servicio ser in salud.todosServ()){
+
+								
+								
+										foreach (Medico med in ser.Plantel){
+								
+									
+											if(med.NombreMed == especialista){
+									
+									
+												foreach(Paciente paciente in ser.ListaPacientes){
 							
-						Console.WriteLine();
-						Console.WriteLine("Presione una tecla para volver al menú...");
-						Console.ReadKey();
-						Console.Clear();
+													if(dni == paciente.DniPac){
+											
+															ser.eliminarPaciente(paciente);
+															Console.WriteLine("El paciente fue dado de alta con exito");
+											
+									
+													}
+													else{
+											
+														Console.WriteLine("No se encontro el paciente con ese dni");
+													}
+									}
+								}
+											else{
+											
+												Console.WriteLine("No se encontro el medico con ese nombre");
+											}
+							}
+						}
 						
-						//Vuelvo a mostrar el menú
-						Console.WriteLine("Seleccione una opcion del menu: ");
-						Console.WriteLine(" 1 - agregar medico");
-						Console.WriteLine(" 2 - eliminar medico");
-						Console.WriteLine(" 3 - internar un paciente con un medico a cargo");
-						Console.WriteLine(" 4 - lista de servicios con medicos de turno nocturno");
-						Console.WriteLine(" 5 - dar el alta a un paciente con un medico determinado");
-						Console.WriteLine(" 6 - listado de servicios");
-						Console.WriteLine(" 7 - listado de medicos");
-						Console.WriteLine(" 8 - listado de pacientes de un servicio");
-						Console.WriteLine(" 9 - salir del programa);");
-						Console.WriteLine();
-						opcion = int.Parse(Console.ReadLine());
-						Console.Clear();
+						opcion = Menu();
 						
 						break;
 					case 6:	//Listado de servicios disponibles
 						
-						salud.todosServicio();
-						
-						Console.WriteLine();
-						Console.WriteLine("Presione una tecla para volver al menú...");
-						Console.ReadKey();
-						Console.Clear();
-						
-						//Vuelvo a mostrar el menú
-						Console.WriteLine("Seleccione una opcion del menu: ");
-						Console.WriteLine(" 1 - agregar medico");
-						Console.WriteLine(" 2 - eliminar medico");
-						Console.WriteLine(" 3 - internar un paciente con un medico a cargo");
-						Console.WriteLine(" 4 - lista de servicios con medicos de turno nocturno");
-						Console.WriteLine(" 5 - dar el alta a un paciente con un medico determinado");
-						Console.WriteLine(" 6 - listado de servicios");
-						Console.WriteLine(" 7 - listado de medicos");
-						Console.WriteLine(" 8 - listado de pacientes de un servicio");
-						Console.WriteLine(" 9 - salir del programa);");
-						Console.WriteLine();
-						opcion = int.Parse(Console.ReadLine());
-						Console.Clear();
+						opcion = Menu();
 						
 						break;
 					case 7:	//Listado de medicos disponibles
@@ -362,25 +338,7 @@ namespace TP_clinica
 						cardiologia.todosMedico();
 						Console.WriteLine();
 						
-						Console.WriteLine();
-						Console.WriteLine("Presione una tecla para volver al menú...");
-						Console.ReadKey();
-						Console.Clear();
-						
-						//Vuelvo a mostrar el menú
-						Console.WriteLine("Seleccione una opcion del menu: ");
-						Console.WriteLine(" 1 - agregar medico");
-						Console.WriteLine(" 2 - eliminar medico");
-						Console.WriteLine(" 3 - internar un paciente con un medico a cargo");
-						Console.WriteLine(" 4 - lista de servicios con medicos de turno nocturno");
-						Console.WriteLine(" 5 - dar el alta a un paciente con un medico determinado");
-						Console.WriteLine(" 6 - listado de servicios");
-						Console.WriteLine(" 7 - listado de medicos");
-						Console.WriteLine(" 8 - listado de pacientes de un servicio");
-						Console.WriteLine(" 9 - salir del programa);");
-						Console.WriteLine();
-						opcion = int.Parse(Console.ReadLine());
-						Console.Clear();
+						opcion = Menu();
 						
 						break;
 						
@@ -395,31 +353,37 @@ namespace TP_clinica
 						
 						especialidad = Console.ReadLine();
 						
-						kinesiologia.todosPaciente(especialidad);
-						radiologia.todosPaciente(especialidad);
-						odontologia.todosPaciente(especialidad);
-						cardiologia.todosPaciente(especialidad);
+						switch (especialidad) {
+							case "e1":
+								foreach(Paciente pac1 in kinesiologia.todosPaciente()){
+									Console.WriteLine(pac1.NombrePac+" "+pac1.ApellidoPac);
+								}
+										
+								break;
+							case "e2":
+										
+										foreach(Paciente pac2 in odontologia.todosPaciente()){
+									Console.WriteLine(pac2.NombrePac+" "+pac2.ApellidoPac);
+								}
+								break;
+							case "e3":
+										
+										foreach(Paciente pac3 in radiologia.todosPaciente()){
+									Console.WriteLine(pac3.NombrePac+" "+pac3.ApellidoPac);
+									}
+								break;
+							case "e4":
+										
+										foreach(Paciente pac4 in cardiologia.todosPaciente()){
+									Console.WriteLine(pac4.NombrePac+" "+pac4.ApellidoPac);
+									}
+								break;
+							Console.WriteLine("Presione una tecla para volver al menu...");
+							Console.ReadKey();
+							Console.Clear();
+						}
 						
-						Console.WriteLine();
-						Console.WriteLine("Presione una tecla para volver al menú...");
-						Console.ReadKey();
-						Console.Clear();
-						
-						//Vuelvo a mostrar el menú
-						
-						Console.WriteLine("Seleccione una opcion del menu: ");
-						Console.WriteLine(" 1 - agregar medico");
-						Console.WriteLine(" 2 - eliminar medico");
-						Console.WriteLine(" 3 - internar un paciente con un medico a cargo");
-						Console.WriteLine(" 4 - lista de servicios con medicos de turno nocturno");
-						Console.WriteLine(" 5 - dar el alta a un paciente con un medico determinado");
-						Console.WriteLine(" 6 - listado de servicios");
-						Console.WriteLine(" 7 - listado de medicos");
-						Console.WriteLine(" 8 - listado de pacientes de un servicio");
-						Console.WriteLine(" 9 - salir del programa);");
-						Console.WriteLine();
-						opcion = int.Parse(Console.ReadLine());
-						Console.Clear();
+						opcion = Menu();
 						
 						break;
 						
@@ -432,7 +396,33 @@ namespace TP_clinica
 				}
 				
 			}
+		}
+		
+		//Métodos estaticos:
+		static int Menu(){
+			
+			
+			Console.WriteLine("Seleccione una opcion del menu: ");
+			Console.WriteLine(" 1 - agregar medico");
+			Console.WriteLine(" 2 - eliminar medico");
+			Console.WriteLine(" 3 - internar un paciente con un medico a cargo");
+			Console.WriteLine(" 4 - lista de servicios con medicos de turno nocturno");
+			Console.WriteLine(" 5 - dar el alta a un paciente con un medico determinado");
+			Console.WriteLine(" 6 - listado de servicios");
+			Console.WriteLine(" 7 - listado de medicos");
+			Console.WriteLine(" 8 - listado de pacientes de un servicio");
+			Console.WriteLine(" 9 - salir del programa");
+			Console.WriteLine();
+			int opcion = int.Parse(Console.ReadLine());
+			Console.Clear();
+			return opcion;
 			
 		}
-	}
-}
+		
+					static void serviciosTurnoNocturno(string codigoServ){
+							
+						Console.WriteLine(codigoServ + " funciona durante el turno nocturno");
+						
+					}	
+				}				
+			}
